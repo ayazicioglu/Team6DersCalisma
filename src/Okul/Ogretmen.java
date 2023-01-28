@@ -14,9 +14,9 @@ tutulacaktir
  */
     static private String ogretmenAdi, ogretmenSoyad,kimlikNo,dogumYili,brans;
 
-    static Map<String,String> ogretmenlerMap=new HashMap<>();
+    static HashMap<String,String> ogretmenlerMap=new HashMap<>();
     static Scanner scan=new Scanner(System.in);
-    static String silinecekOgretmen="";
+
     public static void menu() {
 
         System.out.println("========= YILDIZ KOLEJI =========\n" +
@@ -49,6 +49,7 @@ tutulacaktir
                 menu();
 
             case "5":
+
                 kimlikNoileKayitSilme();
                 menu();
             case "a":
@@ -78,22 +79,22 @@ tutulacaktir
             return ogrenciMap;
         }
      */
-    private static void kimlikNoileKayitSilme() {
 
-        System.out.println("Silinecek ogretmen tc no giriniz:");
-        silinecekOgretmen= scan.nextLine();
-        scan.next();
-        boolean flag=true;
-        String silinecekKey=ogretmenlerMap.get(silinecekOgretmen);
+        private static void kimlikNoileKayitSilme() {
+                System.out.println("Silinecek ogretmen tc no giriniz:");
+                String silinecekOgretmen= scan.nextLine();
+                scan.next();
 
-        if ((ogretmenlerMap.containsKey(silinecekOgretmen))){
-            ogretmenlerMap.remove(silinecekOgretmen);
-            System.out.println( "Girdiginiz "+silinecekKey+" tc nolu ogretmen silindi");
-            flag=false;
+            System.out.println(ogretmenlerMap.remove(silinecekOgretmen)); //null dönüyor?
+            System.out.println(ogretmenlerMap.containsKey(silinecekOgretmen));// false dönüyor
+            if (ogretmenlerMap.containsKey(silinecekOgretmen)) {
+                    ogretmenlerMap.remove(silinecekOgretmen);
+                    ogretmenlerMap.remove(silinecekOgretmen, ogretmenlerMap.get(silinecekOgretmen));
+                    System.out.println("Girdiginiz " + silinecekOgretmen + " tc nolu ogretmen silindi");
+
+
+            }else System.out.println("Verilen kimlik no ile öğretmen bulunamadi");
         }
-        if (flag) System.out.println("Girilen Tc no'da öğretmen yok");
-
-    }
 
     private static void ogretmenEkle() {
         System.out.print("Girmek istediğiniz Öğretmenin TC No sunu giriniz: ");
@@ -154,8 +155,6 @@ tutulacaktir
                         eachValuarr[3]);
                 flag=false;
             }
-
-
         }
         if (flag){
             System.out.println("Aranan Soyisimde Öğretmen yoktur. ");
