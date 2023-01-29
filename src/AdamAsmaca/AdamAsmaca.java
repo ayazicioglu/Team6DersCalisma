@@ -1,60 +1,61 @@
 package AdamAsmaca;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
+import java.util.*;
 
-public class AdamAsmaca {
+public class AdamAsmaca { //Duration:2h30m
     	 /*
     1- Kullaniciya kelimenin uzunlugu kadar hak tani
     2- Eger kelimedeki bir harf birden fazla varsa tahmini kelimedeki tum ayni harfler icin gecerli olsun
     3- That's it bro. Let's begin
-   */static int sayac=0;
+   */
+     boolean bayrak=false;
+     static int sayac=0;
      static String indexHarf="";
-     static String yardimciCizgi="";
+     static List<String> ipUcuCizgisi =new ArrayList<>();
          public static void main(String[] args) {
              Scanner scan=new Scanner(System.in);
-             String[] arr={"Karga","Ordek","Saka","Serce","Dogan","Kartal","Turna","Papagan","Guvercin"};
-             System.out.println("Bir kuş ismi tahmin etmeye çalış");
              Random rnd=new Random();
-             int rastgeleIndex=rnd.nextInt(arr.length);
+             String[] arr={"Karga","Ordek","Saka","Serce","Dogan","Kartal","Turna","Papagan","Guvercin","Tukan"};
+             int rastgeleIndex=rnd.nextInt(arr.length);// Bu satır ChatGPT önerisi
              String rastgeleKelime=arr[rastgeleIndex].toUpperCase();
-             List<String> rastgeleKelimeList= Arrays.asList(rastgeleKelime);
-
-             System.out.println(rastgeleKelime);//bu satırı çıkar!
              int hak=rastgeleKelime.length();
-             for (int i = 1; i <=hak; i++) {
-                 System.out.print((yardimciCizgi = "_"));
-                 }
+             for (int i = 0; i <hak; i++) {
+                 ipUcuCizgisi.add(i,"_");
+             }
+             System.out.println(hak+ " Harfli bir KUŞ ismi tahmin etmeye çalış");
+             System.out.println(ipUcuCizgisi);
              do {
                  System.out.println("\nTahmin giriniz");
-                 String harf=scan.next().toUpperCase();
-                 if (rastgeleKelime.contains(harf)){
+                 String girilenHarf=scan.next().toUpperCase();
+                 if (rastgeleKelime.contains(girilenHarf)){
                      for (int i = 0; i < rastgeleKelime.length(); i++) {
                          indexHarf=rastgeleKelime.substring(i,i+1);
-                         if (indexHarf.equalsIgnoreCase(harf)){
+                         if (indexHarf.equalsIgnoreCase(girilenHarf)){
+                             ipUcuCizgisi.set(i,girilenHarf);
                              sayac++;
                          }
                      }
+                     System.out.println("Girdigin "+girilenHarf+ " harfi kelimede "+sayac+" adet vardir");
+                     String ipUcuCizgisiStr=String.join(",", ipUcuCizgisi); //Bu satır ChatGPT önerisi
+                     ipUcuCizgisiStr=ipUcuCizgisiStr.replace(",","");
+                     System.out.println(ipUcuCizgisiStr);
+                     sayac=0;
 
-                     System.out.println("Girdiginiz harf "+harf+" kelimede "+sayac+" adet vardir");
-                     System.out.println(yardimciCizgi.replace('_',harf.charAt(0)));
-                     System.out.println(yardimciCizgi);
-
-                 }else {
+                     if (rastgeleKelime.equalsIgnoreCase(ipUcuCizgisiStr)){
+                         System.out.println("Tebrikler Kazandın!");
+                         System.exit(0);
+                     }
+                 }
+                 else {
                      hak--;
-                     System.out.println("Tahmin için "+(hak)+" hakkın daha var");
+                     System.out.println("Bilemedin! Tahmin için kalan hakkın: "+(hak));
                     if (hak==0){
-                         System.out.println("Maalesef bilemediniz, cevap "+rastgeleKelime+" idi");
+                         System.out.println("Maalesef bilemedin, cevap "+rastgeleKelime+" idi");
+                         System.exit(0);
 
                      }
-
                  }
-
              }while ((hak<=rastgeleKelime.length()));
-
-
 
          }
 }
